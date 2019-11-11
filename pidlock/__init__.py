@@ -3,9 +3,11 @@ from os.path import *
 import fcntl
 import errno
 
+
 class Locked(Exception):
     pass
-    
+
+
 def pid_exists(pid):
     try:
         os.kill(pid, 0)
@@ -14,6 +16,7 @@ def pid_exists(pid):
             return False
 
     return True
+
 
 class PidLock:
     Locked = Locked
@@ -36,7 +39,7 @@ class PidLock:
 
         flags = 0
         if nonblock is None:
-            nonblock = self.nonblock 
+            nonblock = self.nonblock
         if nonblock:
             flags = fcntl.LOCK_NB
 
@@ -64,10 +67,11 @@ class PidLock:
     def __del__(self):
         self.unlock()
 
+
 # run this twice for best effect
 def _test():
     import time
-    
+
     def sleep(n):
         print(("sleeping for %d seconds" % n))
         time.sleep(n)
@@ -82,6 +86,7 @@ def _test():
     l.lock()
     sleep(5)
     l.unlock()
+
 
 if __name__ == '__main__':
     _test()
